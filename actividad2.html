@@ -25,9 +25,22 @@
 
     <div class="zona-manzanas" id="zonaManzanas"></div>
 
-    <button class="boton-mc" onclick="comenzar()">Comenzar</button>
+    <button id="btnComenzar" class="boton-mc" onclick="comenzar()">Comenzar</button>
 
     <div id="mensaje" class="mensaje-mc"></div>
+
+    <!-- BOTONES FINALES -->
+    <div id="opcionesFinal" style="display:none; margin-top:20px;">
+        <button class="boton-mc" onclick="reiniciarActividad()" 
+            onmouseenter="hablar('¿Quieres volver a contar del uno al cinco?')">
+            🔄 Volver a contar
+        </button>
+
+        <button class="boton-mc" onclick="salirBienvenida()" 
+            onmouseenter="hablar('¿Quieres volver al menú principal?')">
+            🏠 Volver al menú
+        </button>
+    </div>
 
 </div>
 
