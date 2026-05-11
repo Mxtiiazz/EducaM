@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenida</title>
+
+    <link rel="icon" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 id="titulo"></h1>
+
+    <img id="avatarMostrado" src="" alt="Avatar" class="avatar-final">
+
+    <h2 id="mensajeBienvenida"></h2>
+
+    
+    <button onclick="irActividad()">Comenzar Actividad</button>
+    <button onclick="volver()">Volver</button>
+</div>
+
+<script>
+    let nombre = localStorage.getItem("nombreUsuario");
+    let avatar = localStorage.getItem("avatarUsuario");
+
+    document.getElementById("titulo").innerHTML = "Hola " + nombre + " 👋";
+    document.getElementById("avatarMostrado").src = "img/" + avatar;
+    document.getElementById("mensajeBienvenida").innerHTML =
+    "Bienvenido " + nombre + ", ¿estás listo para aprender? 📚✨";
+
+    function irActividad() {
+        window.location.href = "actividad2.html";
+    }
+
+    function volver() {
+    window.location.href = "index.html";
+    }
+</script>
+
+</body>
+</html>

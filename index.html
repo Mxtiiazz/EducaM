@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Plataforma Educativa</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div id="panorama"></div>
+
+<div class="container">
+    <h1>🌟 Bienvenido</h1>
+
+    <img src="img/plataforma.png" class="img-plataforma" alt="Plataforma">
+
+    <p>Ingresa tu nombre y selecciona un avatar para entrar:</p>
+
+    <input type="text" id="nombre" placeholder="Escribe tu nombre...">
+
+    <h2>Selecciona tu avatar:</h2>
+
+    <div class="avatares">
+        <div class="avatar-box">
+            <img src="img/avatar1.png" onclick="seleccionarAvatar(event, 'avatar1.png')" alt="Avatar 1">
+        </div>
+
+        <div class="avatar-box">
+            <img src="img/avatar2.png" onclick="seleccionarAvatar(event, 'avatar2.png')" alt="Avatar 2">
+        </div>
+
+        <div class="avatar-box">
+            <img src="img/avatar3.png" onclick="seleccionarAvatar(event, 'avatar3.png')" alt="Avatar 3">
+        </div>
+
+        <div class="avatar-box">
+            <img src="img/avatar4.png" onclick="seleccionarAvatar(event, 'avatar4.png')" alt="Avatar 4">
+        </div>
+
+        <div class="avatar-box">
+            <img src="img/avatar5.png" onclick="seleccionarAvatar(event, 'avatar5.png')" alt="Avatar 5">
+        </div>
+
+        <div class="avatar-box">
+            <img src="img/avatar6.png" onclick="seleccionarAvatar(event, 'avatar6.png')" alt="Avatar 6">
+        </div>
+    </div>
+
+    <button onclick="validarIngreso()">Ingresar</button>
+
+    <div id="mensaje"></div>
+
+    <!-- Serpentinas -->
+    <div id="confeti"></div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> 
+<script src="js/panorama.js"></script> 
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
