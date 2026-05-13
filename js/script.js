@@ -13,14 +13,15 @@ let sonidoAvatar = new Audio("sonidos/avatar.mp3");
 let sonidoSuccess = new Audio("sonidos/success.mp3");
 let sonidoClick = new Audio("sonidos/click.mp3");
 
-// Función para reproducir sin que se buguee
+// Función para reproducir sonido sin bug
 function reproducirSonido(audio) {
     audio.pause();
     audio.currentTime = 0;
     audio.play();
 }
 
-function hablar(texto) {
+// HABLAR CON CALLBACK (cuando termina)
+function hablar(texto, callback = null) {
     speechSynthesis.cancel();
 
     let mensaje = new SpeechSynthesisUtterance(texto);
@@ -35,6 +36,10 @@ function hablar(texto) {
         let vozEspanol = vocesDisponibles.find(v => v.lang.includes("es"));
         if (vozEspanol) mensaje.voice = vozEspanol;
     }
+
+    mensaje.onend = () => {
+        if (callback) callback();
+    };
 
     speechSynthesis.speak(mensaje);
 }
@@ -51,25 +56,25 @@ function seleccionarAvatar(e, avatar) {
 
     document.getElementById("mensaje").innerHTML = "✅ Avatar seleccionado";
 
-    // reproducir sonidos con tiempo
     reproducirSonido(sonidoClick);
 
     setTimeout(() => {
         reproducirSonido(sonidoAvatar);
-    }, 1000);
+    }, 500);
 
     setTimeout(() => {
         hablar("Avatar seleccionado");
-    }, 1800);
+    }, 1200);
 }
 
 function validarIngreso() {
-    let nombre = document.getElementById("nombre").value;
+    let nombre = document.getElementById("nombre").value.trim().slice(0, 16);
+    document.getElementById("nombre").value = nombre;
 
     reproducirSonido(sonidoClick);
 
     // Caso 1: nada escrito y nada seleccionado
-    if (nombre == "" && avatarElegido == "") {
+    if (nombre === "" && avatarElegido === "") {
         document.getElementById("mensaje").innerHTML =
             "❌ Debes escribir tu nombre y seleccionar un avatar";
 
@@ -79,11 +84,11 @@ function validarIngreso() {
 
         setTimeout(() => {
             hablar("Debes escribir tu nombre y seleccionar un avatar");
-        }, 1000);
+        }, 900);
     }
 
     // Caso 2: escribió nombre pero no avatar
-    else if (nombre != "" && avatarElegido == "") {
+    else if (nombre !== "" && avatarElegido === "") {
         document.getElementById("mensaje").innerHTML =
             "❌ Debes seleccionar un avatar";
 
@@ -93,11 +98,11 @@ function validarIngreso() {
 
         setTimeout(() => {
             hablar("Debes seleccionar un avatar");
-        }, 1000);
+        }, 900);
     }
 
     // Caso 3: seleccionó avatar pero no escribió nombre
-    else if (nombre == "" && avatarElegido != "") {
+    else if (nombre === "" && avatarElegido !== "") {
         document.getElementById("mensaje").innerHTML =
             "❌ Debes escribir tu nombre";
 
@@ -107,11 +112,11 @@ function validarIngreso() {
 
         setTimeout(() => {
             hablar("Debes escribir tu nombre");
-        }, 1000);
+        }, 900);
     }
 
     // Caso 4: todo correcto
-    else if (nombre != "" && avatarElegido != "") {
+    else {
         document.getElementById("mensaje").innerHTML =
             "🎉 Bien hecho, " + nombre;
 
@@ -120,17 +125,14 @@ function validarIngreso() {
         localStorage.setItem("nombreUsuario", nombre);
         localStorage.setItem("avatarUsuario", avatarElegido);
 
-        setTimeout(() => {
-            reproducirSonido(sonidoSuccess);
-        }, 0);
+        reproducirSonido(sonidoSuccess);
 
+        // AHORA ESPERA QUE TERMINE LA VOZ PARA CAMBIAR DE PÁGINA
         setTimeout(() => {
-            hablar("Bien hecho " + nombre);
-        }, 2000);
-
-        setTimeout(() => {
-            window.location.href = "bienvenida.html";
-        }, 3200);
+            hablar("Bien hecho " + nombre, () => {
+                window.location.href = "bienvenida.html";
+            });
+        }, 700);
     }
 }
 
@@ -150,4 +152,22 @@ function lanzarConfeti() {
             confeti.remove();
         }, 3000);
     }
+}
+
+// Frases del título
+let frases = [
+    "¡Aprende jugando!",
+    "¡Modo creativo!",
+    "¡Hora de aprender!",
+    "¡Bienvenido aventurero!",
+    "¡Nivel completado!",
+    "¡Cuenta manzanas!",
+    "¡Construye tu mente!",
+    "¡Eres un pro!"
+];
+
+let splash = document.getElementById("splash");
+
+if (splash) {
+    splash.innerHTML = frases[Math.floor(Math.random() * frases.length)];
 }

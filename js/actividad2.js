@@ -1,5 +1,7 @@
 let nivel = 0;
+let xpNivel = 0;
 
+// ====== SONIDOS ======
 let sonidoCorrecto = new Audio("sonidos/correcto.mp3");
 let sonidoError = new Audio("sonidos/error.mp3");
 let sonidoLogro = new Audio("sonidos/logro.mp3");
@@ -16,7 +18,6 @@ let colaVoz = [];
 let hablando = false;
 
 function hablar(texto) {
-    // si ya está en la cola, no repetir
     if (colaVoz.includes(texto)) return;
 
     colaVoz.push(texto);
@@ -47,11 +48,26 @@ function reproducirCola() {
     speechSynthesis.speak(mensaje);
 }
 
-// LIMPIAR VOZ (para cortar audio y cola)
 function limpiarVoz() {
     speechSynthesis.cancel();
     colaVoz = [];
     hablando = false;
+}
+
+// ====== XP ======
+function actualizarXP() {
+    let progreso = (xpNivel / 5) * 100;
+
+    let xpFill = document.getElementById("xpFill");
+    let xpLevel = document.getElementById("xpLevel");
+
+    if (xpFill) xpFill.style.width = progreso + "%";
+    if (xpLevel) xpLevel.innerHTML = xpNivel;
+}
+
+function subirNivelXP() {
+    xpNivel++;
+    actualizarXP();
 }
 
 // ====== CREAR MANZANAS ======
@@ -68,17 +84,19 @@ function crearManzanas() {
             <div class="numero" id="num${i}"></div>
         `;
 
-        manzana.onclick = () => seleccionar(i);
+        manzana.addEventListener("click", () => seleccionar(i));
 
         zona.appendChild(manzana);
     }
 }
 
-// ====== COMENZAR ACTIVIDAD ======
+// ====== COMENZAR ======
 function comenzar() {
-    limpiarVoz(); // IMPORTANTE
+    limpiarVoz();
 
     nivel = 1;
+    xpNivel = 0;
+    actualizarXP();
 
     document.getElementById("mensaje").innerHTML = "";
     document.getElementById("mensaje").style.color = "white";
@@ -86,10 +104,7 @@ function comenzar() {
     document.getElementById("instruccion").innerHTML =
         "🎧 Haz clic en la manzana número 1";
 
-    // ocultar botón comenzar
     document.getElementById("btnComenzar").style.display = "none";
-
-    // ocultar opciones finales
     document.getElementById("opcionesFinal").style.display = "none";
 
     crearManzanas();
@@ -99,26 +114,24 @@ function comenzar() {
     }, 500);
 }
 
-// ====== SELECCIONAR MANZANA ======
+// ====== SELECCIONAR ======
 function seleccionar(numeroElegido) {
-    if (nivel > 5) return; // evita seguir jugando después de terminar
+    if (nivel > 5) return;
 
     reproducir(sonidoClick);
 
     let manzanas = document.querySelectorAll(".manzana");
     let manzanaActual = manzanas[numeroElegido - 1];
 
-    // limpiar efectos anteriores
     manzanas.forEach(m => {
         m.classList.remove("manzana-correcta");
         m.classList.remove("manzana-error");
     });
 
     if (numeroElegido === nivel) {
+        subirNivelXP();
 
-        // efecto correcto
         manzanaActual.classList.add("manzana-correcta");
-
         document.getElementById("num" + numeroElegido).innerHTML = numeroElegido;
 
         setTimeout(() => {
@@ -139,14 +152,12 @@ function seleccionar(numeroElegido) {
             }, 900);
 
         } else {
-            // esperar un poco para que alcance a decir "cinco"
             setTimeout(() => {
                 finalizar();
             }, 1200);
         }
 
     } else {
-        // efecto error
         manzanaActual.classList.add("manzana-error");
 
         setTimeout(() => {
@@ -160,7 +171,7 @@ function seleccionar(numeroElegido) {
 
 // ====== FINALIZAR ======
 function finalizar() {
-    limpiarVoz(); // IMPORTANTE para que no se mezcle con audios viejos
+    limpiarVoz();
 
     document.getElementById("instruccion").innerHTML =
         "🎉 ¡Felicitaciones! Contaste del 1 al 5";
@@ -173,7 +184,6 @@ function finalizar() {
 
     lanzarConfeti();
 
-    // mostrar botones finales
     setTimeout(() => {
         document.getElementById("opcionesFinal").style.display = "block";
         hablar("¿Quieres volver a contar del uno al cinco?");
@@ -182,9 +192,11 @@ function finalizar() {
 
 // ====== REINICIAR ======
 function reiniciarActividad() {
-    limpiarVoz(); // IMPORTANTE
+    limpiarVoz();
 
     nivel = 1;
+    xpNivel = 0;
+    actualizarXP();
 
     document.getElementById("mensaje").innerHTML = "";
     document.getElementById("mensaje").style.color = "white";
@@ -192,7 +204,6 @@ function reiniciarActividad() {
     document.getElementById("opcionesFinal").style.display = "none";
     document.getElementById("btnComenzar").style.display = "none";
 
-    // limpiar números visibles
     for (let i = 1; i <= 5; i++) {
         let num = document.getElementById("num" + i);
         if (num) num.innerHTML = "";
