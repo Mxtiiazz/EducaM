@@ -1,5 +1,10 @@
 let nivel = 0;
-let xpNivel = 0;
+
+// ====== NIVEL GLOBAL GUARDADO (SE ACUMULA ENTRE ACTIVIDADES) ======
+let nivelGlobal = parseInt(localStorage.getItem("nivelGlobal")) || 0;
+
+// ====== PROGRESO DE ESTA ACTIVIDAD (0 a 5) ======
+let xpProgreso = 0;
 
 // ====== SONIDOS ======
 let sonidoCorrecto = new Audio("sonidos/correcto.mp3");
@@ -54,19 +59,19 @@ function limpiarVoz() {
     hablando = false;
 }
 
-// ====== XP ======
+// ====== XP HUD ======
 function actualizarXP() {
-    let progreso = (xpNivel / 5) * 100;
+    let progreso = (xpProgreso / 5) * 100;
 
     let xpFill = document.getElementById("xpFill");
     let xpLevel = document.getElementById("xpLevel");
 
     if (xpFill) xpFill.style.width = progreso + "%";
-    if (xpLevel) xpLevel.innerHTML = xpNivel;
+    if (xpLevel) xpLevel.innerHTML = nivelGlobal;
 }
 
-function subirNivelXP() {
-    xpNivel++;
+function subirXP() {
+    xpProgreso++;
     actualizarXP();
 }
 
@@ -85,7 +90,6 @@ function crearManzanas() {
         `;
 
         manzana.addEventListener("click", () => seleccionar(i));
-
         zona.appendChild(manzana);
     }
 }
@@ -95,7 +99,7 @@ function comenzar() {
     limpiarVoz();
 
     nivel = 1;
-    xpNivel = 0;
+    xpProgreso = 0;
     actualizarXP();
 
     document.getElementById("mensaje").innerHTML = "";
@@ -129,7 +133,7 @@ function seleccionar(numeroElegido) {
     });
 
     if (numeroElegido === nivel) {
-        subirNivelXP();
+        subirXP();
 
         manzanaActual.classList.add("manzana-correcta");
         document.getElementById("num" + numeroElegido).innerHTML = numeroElegido;
@@ -173,14 +177,25 @@ function seleccionar(numeroElegido) {
 function finalizar() {
     limpiarVoz();
 
+    // COMPLETA PROGRESO VISUAL
+    xpProgreso = 5;
+
+    // SUBE NIVEL GLOBAL Y LO GUARDA
+    nivelGlobal++;
+    localStorage.setItem("nivelGlobal", nivelGlobal);
+
+    // ACTUALIZA HUD YA CON EL NIVEL NUEVO
+    actualizarXP();
+
     document.getElementById("instruccion").innerHTML =
         "🎉 ¡Felicitaciones! Contaste del 1 al 5";
 
-    document.getElementById("mensaje").innerHTML = "🏆 ¡Excelente trabajo!";
+    document.getElementById("mensaje").innerHTML =
+        "🏆 ¡Subiste al nivel " + nivelGlobal + "!";
     document.getElementById("mensaje").style.color = "yellow";
 
     reproducir(sonidoLogro);
-    hablar("Felicitaciones. Contaste del uno al cinco.");
+    hablar("Felicitaciones. Subiste al nivel " + nivelGlobal);
 
     lanzarConfeti();
 
@@ -195,7 +210,7 @@ function reiniciarActividad() {
     limpiarVoz();
 
     nivel = 1;
-    xpNivel = 0;
+    xpProgreso = 0;
     actualizarXP();
 
     document.getElementById("mensaje").innerHTML = "";
@@ -241,3 +256,8 @@ function lanzarConfeti() {
         }, 3000);
     }
 }
+
+// ====== MOSTRAR NIVEL AL CARGAR PÁGINA ======
+window.onload = () => {
+    actualizarXP();
+};

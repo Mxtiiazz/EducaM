@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 3 - Cofre Minecraft</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="fondo-minecraft">
+
+<div class="actividad3-contenedor">
+
+    <!-- INVENTARIO -->
+    <div class="inventario-panel">
+
+        <img src="img/inventario.jpg" class="inventario-img" alt="Inventario">
+
+        <!-- Manzanas dentro del inventario -->
+        <div class="items-inventario">
+            <div class="item-manzana" draggable="true" data-num="1">
+                <img src="img/manzana.png" alt="Manzana">
+                <span>1</span>
+            </div>
+
+            <div class="item-manzana" draggable="true" data-num="2">
+                <img src="img/manzana.png" alt="Manzana">
+                <span>2</span>
+            </div>
+
+            <div class="item-manzana" draggable="true" data-num="3">
+                <img src="img/manzana.png" alt="Manzana">
+                <span>3</span>
+            </div>
+
+            <div class="item-manzana" draggable="true" data-num="4">
+                <img src="img/manzana.png" alt="Manzana">
+                <span>4</span>
+            </div>
+
+            <div class="item-manzana" draggable="true" data-num="5">
+                <img src="img/manzana.png" alt="Manzana">
+                <span>5</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CENTRO -->
+    <div class="zona-juego">
+
+        <h1 class="titulo-mc">📦 Guarda las manzanas en el cofre</h1>
+
+        <p id="instruccion" class="texto-mc">
+            Arrastra las manzanas al cofre en orden del 1 al 5
+        </p>
+
+        <!-- COFRE -->
+        <div id="cofre" class="cofre-drop">
+            <img id="imgCofre" src="img/cofre_cerrado.png" alt="Cofre">
+        </div>
+
+        <div id="mensaje" class="mensaje-mc"></div>
+
+        <!-- BOTON AYUDA -->
+        <button class="boton-mc" onclick="repetirAyuda()">🔊 Ayuda</button>
+
+        <div id="opcionesFinal" style="display:none; margin-top:20px;">
+            <button class="boton-mc" onclick="reiniciarActividad()">🔁 Repetir</button>
+            <button class="boton-mc" onclick="salirBienvenida()">🏠 Salir</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- HUD XP -->
+<div class="hud-xp">
+    <div class="xp-level" id="xpLevel">0</div>
+
+    <div class="xp-bar-container">
+        <img src="img/experience_bar_background.png" class="xp-bar-bg">
+
+        <div class="xp-bar-fill" id="xpFill">
+            <img src="img/experience_bar_progress.png" class="xp-bar-progress">
+        </div>
+    </div>
+</div>
+
+
+<script src="js/actividad3.js"></script>
+
+</body>
+</html>

@@ -453,8 +453,7 @@ input::placeholder {
     width: 420px;
     text-align: center;
     z-index: 10;
-
-    pointer-events: none; /* <-- AGREGA ESTO */
+    pointer-events: none;
 }
 
 .xp-level {
@@ -467,13 +466,13 @@ input::placeholder {
 
 .xp-bar-container {
     position: relative;
-    width: 100%;
+    width: 420px;
     height: 18px;
 }
 
 .xp-bar-bg {
-    width: 100%;
-    height: 100%;
+    width: 420px;
+    height: 18px;
     image-rendering: pixelated;
 }
 
@@ -481,13 +480,116 @@ input::placeholder {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    height: 18px;
     width: 0%;
     overflow: hidden;
 }
 
 .xp-bar-progress {
+    width: 420px; /* MISMO ancho de la barra */
+    height: 18px;
+    image-rendering: pixelated;
+    display: block;
+}
+
+/* ===== ACTIVIDAD 3 ===== */
+
+.actividad3-contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
+/* Inventario */
+.inventario-panel {
+    position: relative;
+    width: 450px;
+}
+
+.inventario-img {
+    width: 100%;
+    image-rendering: pixelated;
+    border-radius: 8px;
+}
+
+/* Zona donde van las manzanas encima */
+.items-inventario {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* cada item se posiciona manualmente */
+.item-manzana {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    cursor: grab;
+}
+
+.item-manzana img {
     width: 100%;
     height: 100%;
     image-rendering: pixelated;
 }
+
+.item-manzana span {
+    position: absolute;
+    bottom: -6px;
+    right: -2px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 0px black;
+    pointer-events: none;
+}
+
+/* POSICIONES EXACTAS DE MANZANAS EN LA HOTBAR */
+.item-manzana[data-num="1"] { top: 73%; left: 16%; }
+.item-manzana[data-num="2"] { top: 73%; left: 29%; }
+.item-manzana[data-num="3"] { top: 73%; left: 42%; }
+.item-manzana[data-num="4"] { top: 73%; left: 55%; }
+.item-manzana[data-num="5"] { top: 73%; left: 68%; }
+
+/* Centro */
+.zona-juego {
+    width: 520px;
+    padding: 25px;
+    background: rgba(70, 70, 70, 0.9);
+    border: 6px solid #2b2b2b;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* Cofre */
+.cofre-drop {
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.cofre-drop img {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    transition: 0.2s;
+}
+
+.cofre-drop:hover img {
+    transform: scale(1.05);
+}
+
+
+
