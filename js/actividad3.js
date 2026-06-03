@@ -154,7 +154,10 @@ function configurarDragDrop() {
         let numero = parseInt(e.dataTransfer.getData("num"));
         verificar(numero);
 
-        cerrarCofre();
+        // cerrar un poquito después
+        setTimeout(() => {
+            cerrarCofre();
+        }, 120);
     });
 }
 
@@ -174,16 +177,30 @@ function configurarCofreEventos() {
     // Drag events
     cofre.addEventListener("dragenter", (e) => {
         e.preventDefault();
-        abrirCofre();
+
+        if (!cofreAbierto) {
+            abrirCofre();
+        }
     });
 
     cofre.addEventListener("dragover", (e) => {
         e.preventDefault();
-        abrirCofre();
     });
 
-    cofre.addEventListener("dragleave", () => {
-        cerrarCofre();
+    // SOLO cerrar cuando realmente sales del cofre
+    cofre.addEventListener("dragleave", (e) => {
+
+        let rect = cofre.getBoundingClientRect();
+
+        let dentro =
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom;
+
+        if (!dentro) {
+            cerrarCofre();
+        }
     });
 }
 

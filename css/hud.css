@@ -1,0 +1,46 @@
+.hud-xp {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.xp-level {
+    font-size: 26px;
+    font-weight: bold;
+    color: #00ff00;
+    text-shadow: 2px 2px 0px black;
+    margin-bottom: 3px;
+}
+
+.xp-bar-container {
+    position: relative;
+    width: 420px;
+    height: 18px;
+}
+
+.xp-bar-bg {
+    width: 420px;
+    height: 18px;
+    image-rendering: pixelated;
+}
+
+.xp-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 0%;
+    overflow: hidden;
+}
+
+.xp-bar-progress {
+    width: 420px;
+    height: 18px;
+    image-rendering: pixelated;
+    display: block;
+}

@@ -195,14 +195,17 @@ function finalizar() {
     document.getElementById("mensaje").style.color = "yellow";
 
     reproducir(sonidoLogro);
-    hablar("Felicitaciones. Subiste al nivel " + nivelGlobal);
 
     lanzarConfeti();
 
+    hablar(
+        "Felicitaciones. Subiste al nivel " + nivelGlobal +
+        ". ¿Quieres pasar al siguiente nivel del cofre?"
+    );
+
     setTimeout(() => {
         document.getElementById("opcionesFinal").style.display = "block";
-        hablar("¿Quieres volver a contar del uno al cinco?");
-    }, 2000);
+    }, 6000);
 }
 
 // ====== REINICIAR ======
@@ -261,3 +264,21 @@ function lanzarConfeti() {
 window.onload = () => {
     actualizarXP();
 };
+
+function irActividad3() {
+
+    speechSynthesis.cancel();
+
+    let mensaje = new SpeechSynthesisUtterance(
+        "Entrando al siguiente nivel del cofre"
+    );
+
+    mensaje.lang = "es-ES";
+    mensaje.rate = 1;
+
+    mensaje.onend = () => {
+        window.location.href = "actividad3.html";
+    };
+
+    speechSynthesis.speak(mensaje);
+}

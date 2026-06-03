@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Matemáticas en Minecraft</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/botones.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="stylesheet" href="css/basico4.css">
+</head>
+
+<body class="fondo-minecraft">
+
+    <!-- HUD XP -->
+    <div class="hud-xp">
+        <div class="xp-level" id="xpLevel">0</div>
+
+        <div class="xp-bar-container">
+            <img src="img/experience_bar_background.png" class="xp-bar-bg">
+
+            <div class="xp-bar-fill" id="xpFill">
+                <img src="img/experience_bar_progress.png" class="xp-bar-progress">
+            </div>
+        </div>
+    </div>
+
+    <div class="contenedor-clase">
+
+        <div class="profesor">
+
+            <img src="img/profesor.png" alt="Profesor Minecraft">
+
+        </div>
+
+        <div class="pizarra">
+
+            <h1 id="tituloTema"></h1>
+
+            <div id="contenidoTema"></div>
+
+            <button
+                class="boton-mc"
+                onclick="escucharTema()">
+
+                🔊 Escuchar explicación
+
+            </button>
+
+            <div class="navegacion">
+
+                <button
+                    class="boton-mc"
+                    onclick="anteriorTema()">
+
+                    ← Anterior
+
+                </button>
+
+                <button
+                    class="boton-mc"
+                    onclick="siguienteTema()">
+
+                    Siguiente →
+
+                </button>
+
+            </div>
+
+            <div id="contenedorInicio"></div>
+
+        </div>
+
+    </div>
+
+    <script src="js/basico4.js"></script>
+
+</body>
+</html>

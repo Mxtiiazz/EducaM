@@ -1,0 +1,185 @@
+.contenedor-clase{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:50px;
+
+    min-height:100vh;
+}
+
+.profesor img{
+    width:220px;
+    image-rendering:pixelated;
+}
+
+.pizarra{
+
+    width:700px;
+
+    min-height:450px;
+
+    background:#222;
+
+    border:8px solid #4a4a4a;
+
+    border-radius:12px;
+
+    padding:30px;
+
+    text-align:center;
+
+    color:white;
+}
+
+#tituloTema{
+    margin-bottom:20px;
+}
+
+#contenidoTema{
+
+    font-size:28px;
+
+    line-height:1.8;
+
+    min-height:220px;
+}
+
+.navegacion{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:30px;
+}
+
+#contenedorInicio{
+    margin-top:20px;
+}
+
+.operacion-demo{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+
+    margin:30px 0;
+
+    flex-wrap:wrap;
+}
+
+.grupo-items{
+
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:center;
+
+    max-width:180px;
+}
+
+.grupo-items img{
+
+    width:40px;
+    image-rendering:pixelated;
+}
+
+.simbolo{
+
+    font-size:50px;
+    font-weight:bold;
+}
+
+.grupos-multi{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin:25px 0;
+}
+
+.grupo{
+
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.grupo img{
+
+    width:40px;
+    image-rendering:pixelated;
+}
+
+.division-demo{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:50px;
+
+    margin:25px 0;
+}
+
+.aldeano{
+
+    font-size:40px;
+}
+
+.suma-demo{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:30px;
+
+    margin:30px 0;
+}
+
+.grupo-suma{
+
+    min-width:180px;
+    min-height:60px;
+}
+
+.grupo-suma img{
+
+    width:48px;
+
+    opacity:0;
+
+    transform:translateY(-20px);
+
+    animation:aparecerDiamante .4s forwards;
+}
+
+@keyframes aparecerDiamante{
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.operador{
+
+    font-size:60px;
+    font-weight:bold;
+}
+
+#resultadoSuma{
+
+    margin-top:25px;
+
+    font-size:30px;
+
+    color:#55ff55;
+
+    min-height:60px;
+}

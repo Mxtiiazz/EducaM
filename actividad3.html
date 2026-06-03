@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actividad 3 - Cofre Minecraft</title>
 
+    <link rel="icon" href="img/favicon.png">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/botones.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="stylesheet" href="css/actividad3.css">
 </head>
 
 <body class="fondo-minecraft">
@@ -66,8 +70,21 @@
         <button class="boton-mc" onclick="repetirAyuda()">🔊 Ayuda</button>
 
         <div id="opcionesFinal" style="display:none; margin-top:20px;">
-            <button class="boton-mc" onclick="reiniciarActividad()">🔁 Repetir</button>
-            <button class="boton-mc" onclick="salirBienvenida()">🏠 Salir</button>
+
+            <button 
+                class="boton-mc"
+                onclick="reiniciarActividad()"
+                onmouseenter="hablar('¿Quieres repetir la actividad?')">
+                🔁 Repetir
+            </button>
+
+            <button 
+                class="boton-mc"
+                onclick="salirBienvenida()"
+                onmouseenter="hablar('¿Quieres volver al menú principal?')">
+                🏠 Salir
+            </button>
+
         </div>
 
     </div>
@@ -89,6 +106,7 @@
 
 
 <script src="js/actividad3.js"></script>
+
 
 </body>
 </html>
