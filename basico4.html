@@ -40,33 +40,36 @@
 
             <div id="contenidoTema"></div>
 
-            <button
-                class="boton-mc"
-                onclick="escucharTema()">
+                <div class="navegacion">
 
-                🔊 Escuchar explicación
+                    <button
+                        id="btnAnterior"
+                        class="boton-mc"
+                        onclick="anteriorTema()">
 
-            </button>
+                        ← Anterior
 
-            <div class="navegacion">
+                    </button>
 
-                <button
-                    class="boton-mc"
-                    onclick="anteriorTema()">
+                    <button
+                        id="btnExplicacion"
+                        class="boton-mc"
+                        onclick="animarSuma()">
 
-                    ← Anterior
+                        ▶ Escuchar y ver ejemplo
 
-                </button>
+                    </button>
 
-                <button
-                    class="boton-mc"
-                    onclick="siguienteTema()">
+                    <button
+                        id="btnSiguiente"
+                        class="boton-mc"
+                        onclick="siguienteTema()">
 
-                    Siguiente →
+                        Siguiente →
 
-                </button>
+                    </button>
 
-            </div>
+                </div>
 
             <div id="contenedorInicio"></div>
 
@@ -74,7 +77,46 @@
 
     </div>
 
+<div id="modalFinal" class="modal">
+
+    <div class="modal-contenido">
+
+        <h2>🎉 ¡Felicidades!</h2>
+
+        <p>
+            Has completado todas las explicaciones.
+        </p>
+
+        <p>
+            ¿Quieres comenzar el Juego 1?
+        </p>
+
+        <div class="modal-botones">
+
+            <button
+                class="boton-mc"
+                onclick="iniciarJuego()">
+
+                🎮 Sí, comenzar
+
+            </button>
+
+            <button
+                class="boton-mc"
+                onclick="cerrarModal()">
+
+                📚 Seguir revisando
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
     <script src="js/basico4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
 </body>
 </html>
