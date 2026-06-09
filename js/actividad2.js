@@ -1,7 +1,7 @@
 let nivel = 0;
 
 // ====== NIVEL GLOBAL GUARDADO (SE ACUMULA ENTRE ACTIVIDADES) ======
-let nivelGlobal = parseInt(localStorage.getItem("nivelGlobal")) || 0;
+let nivelGlobal = parseInt(localStorage.getItem("nivel")) || 1;
 
 // ====== PROGRESO DE ESTA ACTIVIDAD (0 a 5) ======
 let xpProgreso = 0;
@@ -96,6 +96,7 @@ function crearManzanas() {
 
 // ====== COMENZAR ======
 function comenzar() {
+    reproducir(sonidoClick);
     limpiarVoz();
 
     nivel = 1;
@@ -182,7 +183,7 @@ function finalizar() {
 
     // SUBE NIVEL GLOBAL Y LO GUARDA
     nivelGlobal++;
-    localStorage.setItem("nivelGlobal", nivelGlobal);
+    localStorage.setItem("nivel", nivelGlobal);
 
     // ACTUALIZA HUD YA CON EL NIVEL NUEVO
     actualizarXP();
@@ -210,6 +211,7 @@ function finalizar() {
 
 // ====== REINICIAR ======
 function reiniciarActividad() {
+    reproducir(sonidoClick);
     limpiarVoz();
 
     nivel = 1;
@@ -238,7 +240,10 @@ function reiniciarActividad() {
 // ====== SALIR ======
 function salirBienvenida() {
     limpiarVoz();
-    window.location.href = "bienvenida.html";
+    reproducir(sonidoClick);
+    setTimeout(() => {
+        window.location.href = "bienvenida.html";
+    }, 200);
 }
 
 // ====== CONFETI ======
@@ -266,7 +271,7 @@ window.onload = () => {
 };
 
 function irActividad3() {
-
+    reproducir(sonidoClick);
     speechSynthesis.cancel();
 
     let mensaje = new SpeechSynthesisUtterance(

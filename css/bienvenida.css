@@ -24,3 +24,8 @@
     position: relative;
     z-index: 2;
 }
+
+.boton-enlace {
+    text-decoration: none;
+    display: inline-block;
+}

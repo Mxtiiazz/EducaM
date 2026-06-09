@@ -1,3 +1,4 @@
+
 .contenedor-clase{
     display:flex;
     justify-content:center;
@@ -7,9 +8,10 @@
     min-height:100vh;
 }
 
-.profesor img{
+.profesor canvas{
     width:220px;
-    image-rendering:pixelated;
+    height:350px;
+    display:block;
 }
 
 .pizarra{
@@ -420,8 +422,8 @@
     opacity:0;
 
     transition:
-        transform 1s,
-        opacity 1s;
+        transform 0.3s,
+        opacity 0.3s;
 }
 
 .grupos-multiplicacion{

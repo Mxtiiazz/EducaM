@@ -210,9 +210,6 @@ function cargarTema(){
         document.getElementById("btnSiguiente");
 
     if(btnSiguiente){
-        btnSiguiente.disabled =
-            !temasVistos[temaActual];
-
         if(temaActual === temas.length - 1){
             btnSiguiente.innerHTML =
                 "Ir al Juego";
@@ -221,7 +218,7 @@ function cargarTema(){
                 () => mostrarModalFinal(true);
         }else{
             btnSiguiente.innerHTML =
-                "Siguiente ->";
+                "Siguiente →";
 
             btnSiguiente.onclick =
                 siguienteTema;
@@ -253,6 +250,8 @@ function cargarTema(){
         btnExplicacion.innerHTML =
             temasVistos[temaActual] ? "Repetir" : "Iniciar";
     }
+
+    bloquearBotones(animacionEnCurso || navegacionEnCurso);
 }
 
 async function anunciarTema(){
@@ -276,6 +275,8 @@ async function siguienteTema(){
         return;
     }
 
+    sonidoBoton();
+
     if(temaActual < temas.length - 1){
         navegacionEnCurso = true;
         bloquearBotones(true);
@@ -294,6 +295,8 @@ async function anteriorTema(){
     if(animacionEnCurso || navegacionEnCurso){
         return;
     }
+
+    sonidoBoton();
 
     if(temaActual > 0){
         navegacionEnCurso = true;
@@ -355,12 +358,7 @@ function marcarTemaVisto(){
 
     explicacionVista = true;
 
-    const btnSiguiente =
-        document.getElementById("btnSiguiente");
-
-    if(btnSiguiente){
-        btnSiguiente.disabled = false;
-    }
+    bloquearBotones(animacionEnCurso || navegacionEnCurso);
 
     const btnExplicacion =
         document.getElementById("btnExplicacion");
@@ -385,6 +383,8 @@ async function iniciarExplicacion(animacion){
             return;
         }
     }
+
+    sonidoBoton();
 
     animacionEnCurso = true;
 
@@ -599,7 +599,7 @@ async function animarResta(){
                 manzana.classList.add("manzana-eliminada");
             }
 
-            await esperar(220);
+            await esperar(300);
 
             if(manzana){
                 manzana.remove();
@@ -787,6 +787,7 @@ async function animarDivision(){
 }
 
 function iniciarJuego(){
+    sonidoBoton();
     window.location.href =
         "juego1.html";
 }
@@ -827,6 +828,7 @@ async function mostrarModalFinal(narrar = true){
 }
 
 function cerrarModal(){
+    sonidoBoton();
     document.getElementById("modalFinal").style.display =
         "none";
 }
@@ -842,8 +844,20 @@ window.onload = async () => {
     actualizarHUD();
     cargarTema();
 
-    await esperar(500);
+    // Si la pantalla de carga esta activa, esperamos a que termine
+    if (document.getElementById("pantalla-carga-overlay")) {
+        window.addEventListener("pantallaCargaTerminada", async () => {
+            await esperar(300); // Pequeña pausa para que se desvanezca el overlay
+            iniciarIntroVoz();
+        });
+    } else {
+        // Fallback si no hay pantalla de carga
+        await esperar(500);
+        iniciarIntroVoz();
+    }
+};
 
+async function iniciarIntroVoz() {
     if(animacionEnCurso || navegacionEnCurso){
         return;
     }
@@ -863,4 +877,4 @@ window.onload = async () => {
     }
 
     await anunciarTema();
-};
+}

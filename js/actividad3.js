@@ -1,5 +1,6 @@
 let nivel = 1;
 let xpNivel = 0;
+let nivelGlobal = parseInt(localStorage.getItem("nivel")) || 1;
 
 // ====== SONIDOS ======
 let sonidoCorrecto = new Audio("sonidos/correcto.mp3");
@@ -88,7 +89,7 @@ function actualizarXP() {
     let xpLevel = document.getElementById("xpLevel");
 
     if (xpFill) xpFill.style.width = progreso + "%";
-    if (xpLevel) xpLevel.innerHTML = xpNivel;
+    if (xpLevel) xpLevel.innerHTML = nivelGlobal;
 }
 
 function subirXP() {
@@ -115,6 +116,7 @@ function cerrarCofre() {
 
 // ====== AYUDA ======
 function repetirAyuda() {
+    reproducir(sonidoClick);
     limpiarVoz();
     hablar("Arrastra las manzanas al cofre en orden del uno al cinco.");
 }
@@ -263,9 +265,8 @@ function finalizar() {
     hablar("Felicitaciones. Completaste la actividad.");
 
     // subir nivel global
-    let nivelGlobal = parseInt(localStorage.getItem("nivelGlobal")) || 0;
     nivelGlobal++;
-    localStorage.setItem("nivelGlobal", nivelGlobal);
+    localStorage.setItem("nivel", nivelGlobal);
 
     lanzarConfeti();
 
@@ -277,6 +278,7 @@ function finalizar() {
 
 // ====== REINICIAR ======
 function reiniciarActividad() {
+    reproducir(sonidoClick);
     limpiarVoz();
 
     nivel = 1;
@@ -303,7 +305,10 @@ function reiniciarActividad() {
 // ====== SALIR ======
 function salirBienvenida() {
     limpiarVoz();
-    window.location.href = "bienvenida.html";
+    reproducir(sonidoClick);
+    setTimeout(() => {
+        window.location.href = "bienvenida.html";
+    }, 200);
 }
 
 // ====== CONFETI ======
