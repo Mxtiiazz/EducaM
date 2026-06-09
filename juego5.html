@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Juego 5: Mazmorra Matemática Final - EducaCraft</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/botones.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="stylesheet" href="css/pantalla-carga.css">
+    <style>
+        .game-container {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 950px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 6px solid #4a4a4a;
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .dungeon-header {
+            text-align: center;
+        }
+
+        .dungeon-header h1 {
+            color: #ff5555;
+            font-size: 32px;
+            margin: 0;
+            text-shadow: 3px 3px 0px black;
+        }
+
+        .dungeon-header p {
+            color: #aaa;
+            margin: 5px 0;
+        }
+
+        .keys-inventory {
+            display: flex;
+            gap: 20px;
+            background: #2d2d2d;
+            border: 4px solid #555;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 80px;
+            min-width: 500px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dungeon-key {
+            background: #111;
+            border: 3px solid #ffff55;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #ffff55;
+            font-weight: bold;
+            cursor: grab;
+            user-select: none;
+            text-shadow: 2px 2px 0px black;
+            box-shadow: 0px 4px 0px #303000;
+        }
+
+        .chests-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .chest-container {
+            background: #2a2a2a;
+            border: 4px solid #777;
+            border-bottom-color: #1a1a1a;
+            border-right-color: #1a1a1a;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 240px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .chest-container.hover {
+            border-color: #55ff55;
+            background: #223322;
+        }
+
+        .chest-container img.chest-img {
+            width: 70px;
+            height: auto;
+            image-rendering: pixelated;
+            margin: 10px 0;
+            transition: transform 0.2s;
+        }
+
+        .chest-container.solved img.chest-img {
+            transform: scale(1.1);
+        }
+
+        .operation-badge {
+            background: #111;
+            border: 2px solid #55ff55;
+            color: #55ff55;
+            padding: 4px 10px;
+            font-size: 20px;
+            text-shadow: 1px 1px 0px black;
+            border-radius: 4px;
+            font-family: "Minecraft", sans-serif;
+        }
+
+        .chest-type {
+            font-size: 14px;
+            color: #ffff55;
+            text-shadow: 1px 1px 0px black;
+        }
+
+        .placed-key {
+            font-size: 22px;
+            color: #55ff55;
+            background: #111;
+            border: 2px solid #55ff55;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .treasure-box {
+            display: none;
+            margin-top: 15px;
+            background: rgba(85, 255, 85, 0.15);
+            border: 4px solid #55ff55;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-align: center;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(85, 255, 85, 0.5); }
+            to { box-shadow: 0 0 25px rgba(85, 255, 85, 0.9); }
+        }
+
+        .treasure-title {
+            color: #55ff55;
+            font-size: 24px;
+            text-shadow: 2px 2px 0px black;
+            margin-bottom: 5px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body class="fondo-minecraft">
+
+    <div class="game-container">
+        <div class="dungeon-header">
+            <h1>Mazmorra Matemática Final 🏰</h1>
+            <p class="texto-mc">¡Arrastra la llave con el resultado numérico correcto a cada cofre de la mazmorra para abrirlo!</p>
+        </div>
+
+        <!-- Llaves en el inventario -->
+        <div class="keys-inventory" id="keysInventory">
+            <div class="dungeon-key" draggable="true" id="key7" data-val="7">7</div>
+            <div class="dungeon-key" draggable="true" id="key4a" data-val="4">4</div>
+            <div class="dungeon-key" draggable="true" id="key6" data-val="6">6</div>
+            <div class="dungeon-key" draggable="true" id="key4b" data-val="4">4</div>
+        </div>
+
+        <!-- Cofres a abrir -->
+        <div class="chests-grid">
+            <!-- Cofre 1: Suma -->
+            <div class="chest-container" id="chest1" data-res="7" data-type="Suma">
+                <span class="chest-type">Cofre de Suma</span>
+                <img src="img/cofre_cerrado.png" class="chest-img" alt="Cofre">
+                <div class="operation-badge">5 + 2</div>
+            </div>
+
+            <!-- Cofre 2: Resta -->
+            <div class="chest-container" id="chest2" data-res="4" data-type="Resta">
+                <span class="chest-type">Cofre de Resta</span>
+                <img src="img/cofre_cerrado.png" class="chest-img" alt="Cofre">
+                <div class="operation-badge">8 - 4</div>
+            </div>
+
+            <!-- Cofre 3: Multiplicación -->
+            <div class="chest-container" id="chest3" data-res="6" data-type="Multiplicación">
+                <span class="chest-type">Cofre de Multiplicación</span>
+                <img src="img/cofre_cerrado.png" class="chest-img" alt="Cofre">
+                <div class="operation-badge">3 × 2</div>
+            </div>
+
+            <!-- Cofre 4: División -->
+            <div class="chest-container" id="chest4" data-res="4" data-type="División">
+                <span class="chest-type">Cofre de División</span>
+                <img src="img/cofre_cerrado.png" class="chest-img" alt="Cofre">
+                <div class="operation-badge">8 ÷ 2</div>
+            </div>
+        </div>
+
+        <!-- Tesoro Revelado -->
+        <div class="treasure-box" id="treasureBox">
+            <div class="treasure-title">👑 ¡TESORO DE LA MAZMORRA ENCONTRADO! 👑</div>
+            <p style="margin:0; color:#fff;">¡Has abierto todos los cofres resolviendo las operaciones!</p>
+        </div>
+
+        <div class="btn-container">
+            <button class="boton-mc" onclick="reiniciarJuego()">Reiniciar</button>
+            <button class="boton-mc" id="btnSiguiente" disabled onclick="irASiguienteJuego()">Siguiente →</button>
+        </div>
+    </div>
+
+    <!-- HUD XP -->
+    <div class="hud-xp">
+        <div class="xp-level" id="xpLevel">1</div>
+        <div class="xp-bar-container">
+            <img src="img/experience_bar_background.png" class="xp-bar-bg">
+            <div class="xp-bar-fill" id="xpFill">
+                <img src="img/experience_bar_progress.png" class="xp-bar-progress">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="js/juego5.js"></script>
+    <script src="js/musica.js"></script>
+    <script src="js/pantalla-carga.js"></script>
+</body>
+</html>

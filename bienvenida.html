@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/botones.css">
     <link rel="stylesheet" href="css/bienvenida.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/pantalla-carga.css">
 </head>
 <body>
 
@@ -22,9 +23,9 @@
 
     <h2 id="mensajeBienvenida"></h2>
 
-    
-    <button class="boton" onclick="irActividad()">Comenzar Actividad</button>
-    <button class ="boton" onclick="volver()">Volver</button>
+    <button class="boton" onclick="clickYIr(irActividad)">Comenzar Actividad</button>
+    <a href="basico4.html" class="boton boton-enlace" onclick="clickYRedireccionar(event, 'basico4.html')">4° Básico</a>
+    <button class="boton" onclick="clickYIr(volver)">Volver</button>
 </div>
 
 <script>
@@ -36,17 +37,38 @@
     document.getElementById("mensajeBienvenida").innerHTML =
     "Bienvenido " + nombre + ", ¿estás listo para aprender? 📚✨";
 
+    // Inicializar sonido de click y forzar precarga
+    let sonidoClick = new Audio("sonidos/click.mp3");
+    sonidoClick.preload = "auto";
+    sonidoClick.load();
+
+    function clickYIr(callback) {
+        sonidoClick.currentTime = 0;
+        sonidoClick.play().catch(() => {});
+        setTimeout(callback, 350);
+    }
+
+    function clickYRedireccionar(event, url) {
+        event.preventDefault();
+        sonidoClick.currentTime = 0;
+        sonidoClick.play().catch(() => {});
+        setTimeout(() => {
+            window.location.href = url;
+        }, 350);
+    }
+
     function irActividad() {
         window.location.href = "actividad2.html";
     }
 
     function volver() {
-    window.location.href = "index.html";
+        window.location.href = "index.html";
     }
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="js/panorama.js"></script>
-
+<script src="js/musica.js"></script>
+<script src="js/pantalla-carga.js"></script>
 </body>
 </html>

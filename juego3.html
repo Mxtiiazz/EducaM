@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Juego 3: Multiplicación de Cofres y Lingotes - EducaCraft</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/botones.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="stylesheet" href="css/pantalla-carga.css">
+    <style>
+        .game-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 900px;
+            background: rgba(34, 34, 34, 0.9);
+            border: 6px solid #4a4a4a;
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .draggable-card {
+            background: #3c3c3c;
+            border: 4px solid #777;
+            border-bottom-color: #1a1a1a;
+            border-right-color: #1a1a1a;
+            padding: 12px 20px;
+            font-size: 24px;
+            color: #ffff55;
+            cursor: grab;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 2px 2px 0px black;
+        }
+
+        .draggable-card img {
+            width: 28px;
+            height: 28px;
+            image-rendering: pixelated;
+        }
+
+        .targets-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .drop-target {
+            background: #222;
+            border: 4px dashed #555;
+            width: 250px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .drop-target.hover {
+            border-color: #ffff55;
+            background: #3a3a2a;
+        }
+
+        .visual-groups {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .chest-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #111;
+            border: 2px solid #555;
+            padding: 5px;
+            border-radius: 4px;
+            width: 46px;
+        }
+
+        .chest-group img.cofre-img {
+            width: 32px;
+            height: 32px;
+            image-rendering: pixelated;
+        }
+
+        .gold-ingots {
+            display: flex;
+            gap: 2px;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .gold-ingots img {
+            width: 14px;
+            height: 14px;
+            image-rendering: pixelated;
+        }
+
+        .drop-target .group-desc {
+            font-size: 14px;
+            color: #ffffaa;
+            text-shadow: 1px 1px 0px black;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .drop-target .placed-card {
+            font-size: 20px;
+            color: #ffff55;
+            background: #111;
+            border: 2px solid #ffff55;
+            padding: 5px 10px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body class="fondo-minecraft">
+
+    <div class="game-container">
+        <h1 class="titulo-mc">Juego 3: Multiplicación de Lingotes 🪙</h1>
+        <p class="texto-mc">¡Arrastra la multiplicación correcta a su representación visual de cofres y lingotes!</p>
+
+        <div class="cards-container" id="cardsContainer">
+            <div class="draggable-card" draggable="true" id="card1" data-op="4 x 2" data-res="4x2">
+                <img src="img/oro.png" alt="Oro">
+                <span>4 × 2</span>
+            </div>
+            <div class="draggable-card" draggable="true" id="card2" data-op="3 x 2" data-res="3x2">
+                <img src="img/oro.png" alt="Oro">
+                <span>3 × 2</span>
+            </div>
+            <div class="draggable-card" draggable="true" id="card3" data-op="2 x 3" data-res="2x3">
+                <img src="img/oro.png" alt="Oro">
+                <span>2 × 3</span>
+            </div>
+        </div>
+
+        <div class="targets-container">
+            <!-- 3 grupos de 2 lingotes -->
+            <div class="drop-target" id="target3x2" data-res="3x2">
+                <div class="visual-groups">
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                </div>
+                <div class="group-desc">3 grupos de 2 lingotes (Total = 6)</div>
+            </div>
+
+            <!-- 4 grupos de 2 lingotes -->
+            <div class="drop-target" id="target4x2" data-res="4x2">
+                <div class="visual-groups">
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                </div>
+                <div class="group-desc">4 grupos de 2 lingotes (Total = 8)</div>
+            </div>
+
+            <!-- 2 grupos de 3 lingotes -->
+            <div class="drop-target" id="target2x3" data-res="2x3">
+                <div class="visual-groups">
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                    <div class="chest-group">
+                        <img src="img/cofre_cerrado.png" class="cofre-img" alt="Cofre">
+                        <div class="gold-ingots">
+                            <img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro"><img src="img/oro.png" alt="Oro">
+                        </div>
+                    </div>
+                </div>
+                <div class="group-desc">2 grupos de 3 lingotes (Total = 6)</div>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button class="boton-mc" onclick="reiniciarJuego()">Reiniciar</button>
+            <button class="boton-mc" id="btnSiguiente" disabled onclick="irASiguienteJuego()">Siguiente →</button>
+        </div>
+    </div>
+
+    <!-- HUD XP -->
+    <div class="hud-xp">
+        <div class="xp-level" id="xpLevel">1</div>
+        <div class="xp-bar-container">
+            <img src="img/experience_bar_background.png" class="xp-bar-bg">
+            <div class="xp-bar-fill" id="xpFill">
+                <img src="img/experience_bar_progress.png" class="xp-bar-progress">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="js/juego3.js"></script>
+    <script src="js/musica.js"></script>
+    <script src="js/pantalla-carga.js"></script>
+</body>
+</html>

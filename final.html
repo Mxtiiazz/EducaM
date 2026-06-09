@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Felicitaciones! - EducaCraft</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/botones.css">
+    <link rel="stylesheet" href="css/pantalla-carga.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/skinview3d@2.2.1/bundles/skinview3d.bundle.js"></script>
+    <style>
+        .final-container {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            max-width: 700px;
+            background: rgba(34, 34, 34, 0.9);
+            border: 6px solid #55ff55;
+            border-radius: 12px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            box-shadow: 0px 0px 30px rgba(85, 255, 85, 0.4);
+        }
+
+        .stars-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 10px 0 5px 0;
+        }
+
+        .star {
+            font-size: 80px;
+            color: #ffff55;
+            text-shadow: 4px 4px 0px black;
+            animation: bounce 1.2s infinite alternate;
+        }
+
+        .star:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .star:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-20px) scale(1.1); }
+        }
+
+        /* Contenedor del visor 3D de celebración */
+        .skin-celebration-container {
+            width: 200px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: -10px 0 10px 0;
+        }
+
+        #skinCanvasFinal {
+            width: 200px;
+            height: 250px;
+            display: block;
+        }
+
+        .stats-box {
+            background: #111;
+            border: 4px solid #55ff55;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .stats-box div {
+            margin: 8px 0;
+        }
+
+        .stats-box span.val {
+            color: #55ff55;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px black;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body class="fondo-minecraft">
+
+    <div class="final-container">
+        <h1 class="titulo-mc" style="color: #55ff55; font-size: 36px;">🏆 ¡LECCIÓN COMPLETADA! 🏆</h1>
+        <h2 style="margin: 0;">¡Felicitaciones, completaste todos los juegos!</h2>
+
+        <!-- Estrellas Animadas -->
+        <div class="stars-container">
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+        </div>
+
+        <!-- Personaje 3D Celebrando -->
+        <div class="skin-celebration-container">
+            <canvas id="skinCanvasFinal"></canvas>
+        </div>
+
+        <p class="texto-mc">¡Eres un experto matemático de Minecraft! Has dominado la Suma, Resta, Multiplicación y División.</p>
+
+        <!-- Estadísticas Finales -->
+        <div class="stats-box">
+            <div>Nivel Alcanzado: <span class="val" id="finalNivel">1</span></div>
+            <div>Experiencia (XP): <span class="val" id="finalXP">0</span></div>
+        </div>
+
+        <div class="btn-container">
+            <button class="boton-mc" onclick="reiniciarProgreso()">Volver a Jugar</button>
+            <button class="boton-mc" onclick="irATodos()">Ver Proyectos</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="js/final.js"></script>
+    <script src="js/pantalla-carga.js"></script>
+</body>
+</html>

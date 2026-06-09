@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/botones.css">
     <link rel="stylesheet" href="css/hud.css">
     <link rel="stylesheet" href="css/basico4.css">
+    <link rel="stylesheet" href="css/pantalla-carga.css">
+    <script src="https://cdn.jsdelivr.net/npm/skinview3d@2.2.1/bundles/skinview3d.bundle.js"></script>
 </head>
 
 <body class="fondo-minecraft">
@@ -31,7 +33,7 @@
 
         <div class="profesor">
 
-            <img src="img/profesor.png" alt="Profesor Minecraft">
+            <canvas id="skinCanvas"></canvas>
 
         </div>
 
@@ -46,6 +48,7 @@
                     <button
                         id="btnAnterior"
                         class="boton-mc"
+                        style="visibility: hidden;"
                         onclick="anteriorTema()">
 
                         ← Anterior
@@ -64,6 +67,7 @@
                     <button
                         id="btnSiguiente"
                         class="boton-mc"
+                        disabled
                         onclick="siguienteTema()">
 
                         Siguiente →
@@ -119,5 +123,86 @@
     <script src="js/basico4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
+    <script>
+        window.addEventListener("load", () => {
+            console.log("=== DIAGNÓSTICO SKINVIEW3D ===");
+            const canvas = document.getElementById("skinCanvas");
+            if (!canvas) {
+                console.error("ERROR: No se encontró el elemento canvas #skinCanvas");
+                return;
+            }
+            if (typeof skinview3d === "undefined") {
+                console.error("ERROR: La librería skinview3d no se cargó correctamente (undefined)");
+                return;
+            }
+
+            console.log("Inicializando SkinViewer...");
+            const viewer = new skinview3d.SkinViewer({
+                canvas: canvas,
+                width: 220,
+                height: 350,
+                skin: "img/steve.png"
+            });
+
+            // Fondo transparente
+            viewer.renderer.setClearColor(0x000000, 0);
+            viewer.autoRotate = false;
+
+            // Añadir animación Idle (respiración y balanceo de brazos)
+            viewer.animations.add(skinview3d.IdleAnimation);
+
+            // Variables de rotación
+            let targetYaw   = 0;
+            let targetPitch = 0;
+            let currentYaw   = 0;
+            let currentPitch = 0;
+            let mouseMoved = false;
+
+            // Seguir movimiento de mouse
+            document.addEventListener("mousemove", (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                // Ajustamos el centro vertical al 22% de la altura para que coincida con la cabeza y no el torso
+                const centerY = rect.top + rect.height * 0.22;
+
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+
+                // Limitar rotación a rango natural (~45 grados máx)
+                const maxAngle = Math.PI / 4;
+                targetYaw   = Math.max(-maxAngle, Math.min(maxAngle, (dx / window.innerWidth) * Math.PI * 1.5));
+                targetPitch = Math.max(-maxAngle, Math.min(maxAngle, (dy / window.innerHeight) * Math.PI * 1.5));
+
+                if (!mouseMoved) {
+                    console.log("mousemove detectado! Primeros valores de objetivo:", { targetYaw, targetPitch });
+                    mouseMoved = true;
+                }
+            });
+
+            // Bucle independiente para aplicar la rotación con lerp
+            let renderCount = 0;
+            function animateHead() {
+                requestAnimationFrame(animateHead);
+
+                currentYaw   += (targetYaw - currentYaw) * 0.1;
+                currentPitch += (targetPitch - currentPitch) * 0.1;
+
+                if (viewer.playerObject && viewer.playerObject.skin && viewer.playerObject.skin.head) {
+                    // Ambos ejes en positivo para alinearse correctamente con tu pantalla
+                    viewer.playerObject.skin.head.rotation.y = currentYaw;
+                    viewer.playerObject.skin.head.rotation.x = currentPitch;
+
+                    renderCount++;
+                    if (renderCount === 1) {
+                        console.log("Bucle de animación iniciado correctamente. Rotando cabeza...");
+                    }
+                }
+            }
+
+            animateHead();
+        });
+    </script>
+<script src="js/musica.js"></script>
+<script src="js/pantalla-carga.js"></script>
 </body>
 </html>
